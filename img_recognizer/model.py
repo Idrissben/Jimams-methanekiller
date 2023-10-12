@@ -2,15 +2,17 @@
 This module creates and initializes the model.
 """
 import torch
-import torch.nn as nn
+from torch import nn
 
 
 def resnet18(freeze_parameters: bool = True) -> nn.Module:
     """
-    Load a pre-trained ResNet-18 model with the option to freeze its parameters and modify the output layer.
+    Load a pre-trained ResNet-18 model with the option to freeze 
+        its parameters and modify the output layer.
 
     Args:
-        freeze_parameters (bool, optional): If True, freeze the parameters of the loaded ResNet-18 model.
+        freeze_parameters (bool, optional): 
+            If True, freeze the parameters of the loaded ResNet-18 model.
             Defaults to True.
 
     Returns:

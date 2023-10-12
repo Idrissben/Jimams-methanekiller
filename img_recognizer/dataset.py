@@ -10,7 +10,8 @@ from PIL import Image
 
 def convert_to_rgb(image_path: str) -> Image.Image:
     """
-    Load an image from the given path and convert it to the RGB mode if it's not already in that format.
+    Load an image from the given path and convert it 
+    to the RGB mode if it's not already in that format.
 
     Args:
         image_path (str): The path to the image file.
@@ -31,7 +32,8 @@ class TrainData(Dataset):
     Args:
         metadata (pd.DataFrame): Info about the dataset, including image paths and labels.
         base_path (str): Base path for image files.
-        transform (transforms.Compose, optional): Image transformations. Defaults to resize, tensor conversion, and normalization.
+        transform (transforms.Compose, optional): Image transformations. 
+            Defaults to resize, tensor conversion, and normalization.
         augmentation (transforms.Compose, optional): Data augmentation transformations.
     """
 
@@ -54,10 +56,13 @@ class TrainData(Dataset):
         Custom dataset class for training data.
 
         Args:
-            metadata (pd.DataFrame): A DataFrame containing information about the dataset, including image paths and labels.
+            metadata (pd.DataFrame): A DataFrame containing information about the dataset, 
+                    including image paths and labels.
             base_path (str): The base path for image files.
-            transform (transforms.Compose, optional): A composition of image transformations. Default is to resize, convert to tensor, and normalize.
-            augmentation (transforms.Compose, optional): A composition of data augmentation transformations.
+            transform (transforms.Compose, optional): A composition of image transformations. 
+                    Default is to resize, convert to tensor, and normalize.
+            augmentation (transforms.Compose, optional): A composition of data 
+                                                augmentation transformations.
 
         """
         self.transform = transform
@@ -93,7 +98,8 @@ class TestData(Dataset):
     Args:
         metadata (pd.DataFrame): Info about the dataset, including image paths.
         base_path (str): Base path for image files.
-        transform (transforms.Compose, optional): Image transformations. Defaults to resize, tensor conversion, and normalization.
+        transform (transforms.Compose, optional): Image transformations. 
+                    Defaults to resize, tensor conversion, and normalization.
     """
 
     def __init__(
@@ -114,9 +120,11 @@ class TestData(Dataset):
         Custom dataset class for testing data.
 
         Args:
-            metadata (pd.DataFrame): A DataFrame containing information about the dataset, including image paths.
+            metadata (pd.DataFrame): A DataFrame containing information about the dataset, 
+                    including image paths.
             base_path (str): The base path for image files.
-            transform (transforms.Compose, optional): A composition of image transformations. Default is to resize, convert to tensor, and normalize.
+            transform (transforms.Compose, optional): A composition of image transformations. 
+                    Default is to resize, convert to tensor, and normalize.
         """
         self.transform = transform
         self.metadata = metadata

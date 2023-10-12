@@ -1,14 +1,18 @@
 """
-This module can be executed with the command "streamlit run main.py" and launch the MVP of our product.
+This module can be executed with the command "streamlit run main.py" 
+and launch the MVP of our product.
 """
 
-import streamlit as st
-from PIL import Image
-import streamlit.components.v1 as components
 import base64
-from app import classifier
-import pandas as pd
 import io
+
+from PIL import Image
+import streamlit as st
+import streamlit.components.v1 as components
+import pandas as pd
+
+
+from app import classifier
 
 # Load the logo image
 LOGO_PATH = "app/images/logo.png"
@@ -68,7 +72,8 @@ if page == "Home":
         st.text("")
     st.title("CleanR: Get control of your Methane emotions & build your CSRD")
     st.write(
-        "Our mission is to help companies diminish their Methane emissions by providing a clear method for **Monitoring, Reporting and Verification**."
+        """Our mission is to help companies diminish their Methane emissions 
+        by providing a clear method for **Monitoring, Reporting and Verification**."""
     )
 
     col1, col2 = st.columns(2)  # Create two columns

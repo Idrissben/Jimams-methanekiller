@@ -8,7 +8,7 @@ setup(
     name="methane-leak-detector",
     version="0.1.0",
     description="",
-    long_description=open("README.md").read(),
+    long_description = open("README.md").read(),
     long_description_content_type="text/markdown",
     author="Jimams",
     packages=find_packages(),
