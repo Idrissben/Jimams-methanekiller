@@ -6,11 +6,16 @@ authors = ["Jimams"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = ">=3.8,<3.9.7 || >3.9.7,<4.0"
+python =  ">=3.9,<3.9.7 || >3.9.7,<3.13"
 streamlit = "^1.27.2"
 scikit-learn = "^1.3.1"
 torch = {version = "^2.1.0+cpu", source = "pytorch"}
 torchvision = {version = "^0.16.0+cpu", source = "pytorch"}
+pandas = "^2.1.1"
+seaborn = "^0.13.0"
+matplotlib = "^3.8.0"
+tqdm = "^4.66.1"
+ipywidgets = "^8.1.1"
 
 
 [[tool.poetry.source]]
