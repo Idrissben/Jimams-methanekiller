@@ -7,6 +7,7 @@ from evaluation import success_rate
 import matplotlib.pyplot as plt
 from typing import Callable, List
 
+
 def train(
     model: torch.nn.Module,
     data_train: Dataset,
@@ -35,25 +36,27 @@ def train(
     """
     optimizer = optim.Adam(model.parameters(), lr=lr)
     dataloader_train = DataLoader(data_train, batch_size=batch_size, shuffle=True)
-    dataloader_validation = DataLoader(data_validation, batch_size=batch_size, shuffle=True) 
+    dataloader_validation = DataLoader(
+        data_validation, batch_size=batch_size, shuffle=True
+    )
     training_loss = []
     validation_loss = []
     success_rate_ = [0]
-    best_val_loss = float('inf')
+    best_val_loss = float("inf")
     early_stopping = 0
 
-    for _ in tqdm(range(epochs), desc = "Total Progress: "):
+    for _ in tqdm(range(epochs), desc="Total Progress: "):
         loss_epoch_train = 0
-        
+
         for inputs, labels in dataloader_train:
             target = torch.zeros((min(len(labels), batch_size)))
-    
+
             for i in range(min(len(labels), batch_size)):
                 target[i] = labels[i]
 
             target = target.type(torch.LongTensor)
             inputs = inputs.type(torch.FloatTensor)
-      
+
             optimizer.zero_grad()
 
             outputs = model(inputs)
@@ -76,10 +79,10 @@ def train(
 
             print("Epoch done.")
             print("-------------------------------------")
-        
+
         if val_loss < best_val_loss:
             best_val_loss = val_loss
-            torch.save(model.state_dict(), 'best_model.pt')
+            torch.save(model.state_dict(), "best_model.pt")
         else:
             early_stopping += 1
             if early_stopping >= 2:

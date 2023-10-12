@@ -3,6 +3,7 @@ from torch.utils.data import Dataset
 import pandas as pd
 from PIL import Image
 
+
 def convert_to_rgb(image_path: str) -> Image.Image:
     """
     Load an image from the given path and convert it to the RGB mode if it's not already in that format.
@@ -14,21 +15,26 @@ def convert_to_rgb(image_path: str) -> Image.Image:
         image (Image.Image): The loaded image in RGB mode.
     """
     image = Image.open(image_path)
-    if image.mode != 'RGB':
-        image = image.convert('RGB')
+    if image.mode != "RGB":
+        image = image.convert("RGB")
     return image
+
 
 class TrainData(Dataset):
     def __init__(
         self,
         metadata: pd.DataFrame,
         base_path: str,
-        transform: transforms.Compose = transforms.Compose([
-            transforms.Resize((224, 224)),
-            transforms.ToTensor(),
-            transforms.Normalize(mean=(0.485, 0.456, 0.406), std=(0.229, 0.224, 0.225))
-        ]),
-        augmentation: transforms.Compose = None
+        transform: transforms.Compose = transforms.Compose(
+            [
+                transforms.Resize((224, 224)),
+                transforms.ToTensor(),
+                transforms.Normalize(
+                    mean=(0.485, 0.456, 0.406), std=(0.229, 0.224, 0.225)
+                ),
+            ]
+        ),
+        augmentation: transforms.Compose = None,
     ):
         """
         Custom dataset class for training data.
@@ -49,8 +55,8 @@ class TrainData(Dataset):
         return self.metadata.shape[0]
 
     def __getitem__(self, idx: int) -> tuple:
-        label = 1 if self.metadata['plume'].iloc[idx] == 'yes' else 0
-        img_path = self.base_path + self.metadata['path'].iloc[idx] + '.tif'
+        label = 1 if self.metadata["plume"].iloc[idx] == "yes" else 0
+        img_path = self.base_path + self.metadata["path"].iloc[idx] + ".tif"
         image = convert_to_rgb(img_path)
 
         if self.augmentation:
@@ -60,17 +66,22 @@ class TrainData(Dataset):
             image = self.transform(image)
 
         return image, label
-    
+
+
 class TestData(Dataset):
     def __init__(
         self,
         metadata: pd.DataFrame,
         base_path: str,
-        transform: transforms.Compose = transforms.Compose([
-            transforms.Resize((224, 224)),
-            transforms.ToTensor(),
-            transforms.Normalize(mean=(0.485, 0.456, 0.406), std=(0.229, 0.224, 0.225))
-        ])
+        transform: transforms.Compose = transforms.Compose(
+            [
+                transforms.Resize((224, 224)),
+                transforms.ToTensor(),
+                transforms.Normalize(
+                    mean=(0.485, 0.456, 0.406), std=(0.229, 0.224, 0.225)
+                ),
+            ]
+        ),
     ):
         """
         Custom dataset class for testing data.
@@ -88,7 +99,14 @@ class TestData(Dataset):
         return self.metadata.shape[0]
 
     def __getitem__(self, idx: int) -> Image.Image:
-        img_path = self.base_path + 'images/' + str(self.metadata['date'].iloc[idx]) + '_methane_mixing_ratio_' + self.metadata['id_coord'].iloc[idx] + '.tif'
+        img_path = (
+            self.base_path
+            + "images/"
+            + str(self.metadata["date"].iloc[idx])
+            + "_methane_mixing_ratio_"
+            + self.metadata["id_coord"].iloc[idx]
+            + ".tif"
+        )
         image = convert_to_rgb(img_path)
 
         if self.transform:

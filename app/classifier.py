@@ -9,14 +9,13 @@ def resnet18(freeze_parameters: bool = True) -> nn.Module:
     Load a pre-trained ResNet-18 model with the option to freeze its parameters and modify the output layer.
 
     Args:
-        freeze_parameters (bool, optional): If True, freeze the parameters of the loaded ResNet-18 model. 
+        freeze_parameters (bool, optional): If True, freeze the parameters of the loaded ResNet-18 model.
             Defaults to True.
 
     Returns:
         model (nn.Module): The ResNet-18 model with modified output layer.
     """
-    model = torch.hub.load('pytorch/vision:v0.10.0',
-                           'resnet18', pretrained=True)
+    model = torch.hub.load("pytorch/vision:v0.10.0", "resnet18", pretrained=True)
 
     if freeze_parameters:
         for param in model.parameters():
@@ -35,13 +34,16 @@ class Classifier:
         # Set the model to evaluation mode
         self.model.eval()
         # Define the image transformations to be applied
-        self.transform = transforms.Compose([
-            transforms.Resize(256),
-            transforms.CenterCrop(224),
-            transforms.ToTensor(),
-            transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[
-                                 0.229, 0.224, 0.225])
-        ])
+        self.transform = transforms.Compose(
+            [
+                transforms.Resize(256),
+                transforms.CenterCrop(224),
+                transforms.ToTensor(),
+                transforms.Normalize(
+                    mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]
+                ),
+            ]
+        )
 
     def classify_image(self, image_path):
         # Load the image from the specified file
@@ -55,4 +57,7 @@ class Classifier:
             output = self.model(image)
             probabilities = torch.nn.functional.softmax(output[0], dim=0)
         # Return the predicted class and its probability
-        return torch.argmax(probabilities).item(), probabilities[torch.argmax(probabilities)].item()
+        return (
+            torch.argmax(probabilities).item(),
+            probabilities[torch.argmax(probabilities)].item(),
+        )

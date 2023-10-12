@@ -2,7 +2,10 @@ import torch
 import torch.nn as nn
 from torch.utils.data import DataLoader
 
-def calculate_loss(model: nn.Module, dataloader: DataLoader, batch_size: int=16) -> float:
+
+def calculate_loss(
+    model: nn.Module, dataloader: DataLoader, batch_size: int = 16
+) -> float:
     """
     Calculate the total loss of a model on a dataset.
 
