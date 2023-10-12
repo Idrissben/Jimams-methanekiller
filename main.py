@@ -156,7 +156,7 @@ elif page == "End of Leak Certificate":
 
     # Filter the DataFrame based on the selected id_coord
     selected_row = combined_df[combined_df["id_coord"] == selected_id].iloc[0]
-    
+
     # Obtain the file paths for the images
     path1, path2 = "app/" + selected_row["path1"], "app/" + selected_row["path2"]
 
