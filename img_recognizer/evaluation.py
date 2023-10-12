@@ -7,7 +7,6 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import seaborn as sns
 from torch.utils.data import DataLoader
-from typing import List
 from tqdm.notebook import tqdm
 from sklearn.metrics import roc_auc_score
 

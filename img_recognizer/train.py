@@ -8,7 +8,7 @@ from tqdm.notebook import tqdm
 from loss import calculate_loss
 from evaluation import success_rate
 import matplotlib.pyplot as plt
-from typing import Callable, List
+from typing import Callable
 
 
 def train(

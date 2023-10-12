@@ -5,7 +5,7 @@ This module provides functions load the dataset.
 import torch
 import torchvision.transforms as transforms
 from PIL import Image
-import torch.nn as nn
+from torch import nn
 
 
 def resnet18(freeze_parameters: bool = True) -> nn.Module:
