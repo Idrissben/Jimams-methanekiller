@@ -1,5 +1,8 @@
+"""
+This module provides a function calculate the loss of the model.
+"""
 import torch
-import torch.nn as nn
+from torch import nn
 from torch.utils.data import DataLoader
 
 

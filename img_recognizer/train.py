@@ -1,11 +1,14 @@
+"""
+This module provides functions to train the model.
+"""
+from typing import Callable
 import torch
-import torch.optim as optim
+from torch import optim
 from torch.utils.data import Dataset, DataLoader
 from tqdm.notebook import tqdm
 from loss import calculate_loss
 from evaluation import success_rate
 import matplotlib.pyplot as plt
-from typing import Callable, List
 
 
 def train(
@@ -35,7 +38,8 @@ def train(
         model (torch.nn.Module): The trained model.
     """
     optimizer = optim.Adam(model.parameters(), lr=lr)
-    dataloader_train = DataLoader(data_train, batch_size=batch_size, shuffle=True)
+    dataloader_train = DataLoader(
+        data_train, batch_size=batch_size, shuffle=True)
     dataloader_validation = DataLoader(
         data_validation, batch_size=batch_size, shuffle=True
     )
@@ -66,15 +70,16 @@ def train(
             optimizer.step()
 
         if print_progress:
-            print("Training Loss: {0}".format(loss_epoch_train.detach()))
+            print(f"Training Loss: {loss_epoch_train.detach()}")
             training_loss.append(loss_epoch_train.detach())
 
             val_loss = calculate_loss(model, dataloader_validation, batch_size)
-            print("Validation Loss: {0}".format(val_loss))
+            print(f"Validation Loss: {val_loss}")
             validation_loss.append(val_loss)
 
-            accuracy_rate = success_rate(model, dataloader_validation, batch_size)
-            print("Model accuracy: {0} %".format(accuracy_rate))
+            accuracy_rate = success_rate(
+                model, dataloader_validation, batch_size)
+            print("Model accuracy: {accuracy_rate} %")
             success_rate_.append(accuracy_rate)
 
             print("Epoch done.")

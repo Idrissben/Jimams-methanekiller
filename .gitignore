@@ -1,4 +1,13 @@
+#Virtual environments and cache
 .venv/
 __pycache__
+*.ipynb_checkpoints/
+
+#Data and images
 data/
-.pth
+*.png
+*.jpg
+*.jpeg
+
+#Models and training notebooks
+*.pth

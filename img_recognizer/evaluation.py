@@ -1,10 +1,12 @@
+"""
+This module provides functions to evaluate the accuracy of the model.
+"""
 import torch
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
 import seaborn as sns
 from torch.utils.data import DataLoader
-from typing import List
 from tqdm.notebook import tqdm
 from sklearn.metrics import roc_auc_score
 
@@ -21,7 +23,7 @@ def success_rate(model: torch.nn.Module, data: DataLoader, batch_size: int) -> f
     Returns:
         rate (float): The success rate (accuracy) of the model on the dataset.
     """
-    N = len(data)
+    n = len(data)
     counter = 0
 
     with torch.no_grad():
@@ -36,7 +38,7 @@ def success_rate(model: torch.nn.Module, data: DataLoader, batch_size: int) -> f
                     counter += 1
                 i += 1
             l = len(target)
-    rate = (counter / ((N - 1) * batch_size + l)) * 100
+    rate = (counter / ((n - 1) * batch_size + l)) * 100
     return rate
 
 
@@ -45,7 +47,8 @@ def conf_mat(model: torch.nn.Module, test_data: DataLoader, batch_size: int) -> 
     Compute and display a confusion matrix for a model's predictions on a test dataset.
 
     Args:
-        model (torch.nn.Module): The PyTorch model for which the confusion matrix will be calculated.
+        model (torch.nn.Module): The PyTorch model for which the 
+                confusion matrix will be calculated.
         test_data (DataLoader): DataLoader providing batches of test data and labels.
         batch_size (int): Batch size for processing data.
 
@@ -54,7 +57,8 @@ def conf_mat(model: torch.nn.Module, test_data: DataLoader, batch_size: int) -> 
     """
     nb_classes = 2
     confusion_matrix = np.zeros((nb_classes, nb_classes))
-    dataloader_test = DataLoader(test_data, batch_size=batch_size, shuffle=True)
+    dataloader_test = DataLoader(
+        test_data, batch_size=batch_size, shuffle=True)
 
     with torch.no_grad():
         for inputs, labels in tqdm(dataloader_test, desc="Total Progress: "):
@@ -88,7 +92,8 @@ def conf_mat(model: torch.nn.Module, test_data: DataLoader, batch_size: int) -> 
 
 def calculate_auc(model: torch.nn.Module, data: DataLoader, batch_size: int) -> float:
     """
-    Calculate the Area Under the Receiver Operating Characteristic (ROC) Curve (AUC) for a model's predictions on a dataset.
+    Calculate the Area Under the Receiver Operating Characteristic (ROC) 
+        Curve (AUC) for a model's predictions on a dataset.
 
     Args:
         model (torch.nn.Module): The PyTorch model for which the AUC will be calculated.

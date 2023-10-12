@@ -1,3 +1,7 @@
+"""
+This module provides functions to handle the dataset.
+"""
+
 from torchvision import transforms
 from torch.utils.data import Dataset
 import pandas as pd
@@ -6,7 +10,8 @@ from PIL import Image
 
 def convert_to_rgb(image_path: str) -> Image.Image:
     """
-    Load an image from the given path and convert it to the RGB mode if it's not already in that format.
+    Load an image from the given path and convert it 
+    to the RGB mode if it's not already in that format.
 
     Args:
         image_path (str): The path to the image file.
@@ -21,6 +26,17 @@ def convert_to_rgb(image_path: str) -> Image.Image:
 
 
 class TrainData(Dataset):
+    """
+    Dataset class for training image data.
+
+    Args:
+        metadata (pd.DataFrame): Info about the dataset, including image paths and labels.
+        base_path (str): Base path for image files.
+        transform (transforms.Compose, optional): Image transformations. 
+            Defaults to resize, tensor conversion, and normalization.
+        augmentation (transforms.Compose, optional): Data augmentation transformations.
+    """
+
     def __init__(
         self,
         metadata: pd.DataFrame,
@@ -40,10 +56,13 @@ class TrainData(Dataset):
         Custom dataset class for training data.
 
         Args:
-            metadata (pd.DataFrame): A DataFrame containing information about the dataset, including image paths and labels.
+            metadata (pd.DataFrame): A DataFrame containing information about the dataset, 
+                    including image paths and labels.
             base_path (str): The base path for image files.
-            transform (transforms.Compose, optional): A composition of image transformations. Default is to resize, convert to tensor, and normalize.
-            augmentation (transforms.Compose, optional): A composition of data augmentation transformations.
+            transform (transforms.Compose, optional): A composition of image transformations. 
+                    Default is to resize, convert to tensor, and normalize.
+            augmentation (transforms.Compose, optional): A composition of data 
+                                                augmentation transformations.
 
         """
         self.transform = transform
@@ -52,9 +71,13 @@ class TrainData(Dataset):
         self.base_path = base_path
 
     def __len__(self) -> int:
+        """Returns the number of items in the dataset."""
+
         return self.metadata.shape[0]
 
     def __getitem__(self, idx: int) -> tuple:
+        """Retrieve image-label pair based on the index."""
+
         label = 1 if self.metadata["plume"].iloc[idx] == "yes" else 0
         img_path = self.base_path + self.metadata["path"].iloc[idx] + ".tif"
         image = convert_to_rgb(img_path)
@@ -69,6 +92,16 @@ class TrainData(Dataset):
 
 
 class TestData(Dataset):
+    """
+    Dataset class for testing image data.
+
+    Args:
+        metadata (pd.DataFrame): Info about the dataset, including image paths.
+        base_path (str): Base path for image files.
+        transform (transforms.Compose, optional): Image transformations. 
+                    Defaults to resize, tensor conversion, and normalization.
+    """
+
     def __init__(
         self,
         metadata: pd.DataFrame,
@@ -87,18 +120,24 @@ class TestData(Dataset):
         Custom dataset class for testing data.
 
         Args:
-            metadata (pd.DataFrame): A DataFrame containing information about the dataset, including image paths.
+            metadata (pd.DataFrame): A DataFrame containing information about the dataset, 
+                    including image paths.
             base_path (str): The base path for image files.
-            transform (transforms.Compose, optional): A composition of image transformations. Default is to resize, convert to tensor, and normalize.
+            transform (transforms.Compose, optional): A composition of image transformations. 
+                    Default is to resize, convert to tensor, and normalize.
         """
         self.transform = transform
         self.metadata = metadata
         self.base_path = base_path
 
     def __len__(self) -> int:
+        """Returns the number of items in the dataset."""
+
         return self.metadata.shape[0]
 
     def __getitem__(self, idx: int) -> Image.Image:
+        """Retrieve image based on the index."""
+
         img_path = (
             self.base_path
             + "images/"
