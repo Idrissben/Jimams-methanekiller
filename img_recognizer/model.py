@@ -1,5 +1,5 @@
 """
-This module define the model.
+This module creates and initializes the model.
 """
 import torch
 import torch.nn as nn
