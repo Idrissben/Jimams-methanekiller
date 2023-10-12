@@ -8,6 +8,7 @@ from typing import List
 from tqdm.notebook import tqdm
 from sklearn.metrics import roc_auc_score
 
+
 def success_rate(model: torch.nn.Module, data: DataLoader, batch_size: int) -> float:
     """
     Calculate the success rate (accuracy) of a model on a dataset.
@@ -35,7 +36,7 @@ def success_rate(model: torch.nn.Module, data: DataLoader, batch_size: int) -> f
                     counter += 1
                 i += 1
             l = len(target)
-    rate = (counter / ((N-1) * batch_size + l)) * 100
+    rate = (counter / ((N - 1) * batch_size + l)) * 100
     return rate
 
 
@@ -67,16 +68,23 @@ def conf_mat(model: torch.nn.Module, test_data: DataLoader, batch_size: int) -> 
     plt.figure(figsize=(7, 5))
     class_names = ["Contains Plume", "Does Not Contain Plume"]
 
-    df_cm = pd.DataFrame(confusion_matrix, index=class_names, columns=class_names).astype(int)
+    df_cm = pd.DataFrame(
+        confusion_matrix, index=class_names, columns=class_names
+    ).astype(int)
     heatmap = sns.heatmap(df_cm, annot=True, fmt="d")
 
-    heatmap.yaxis.set_ticklabels(heatmap.yaxis.get_ticklabels(), rotation=0, ha='right', fontsize=8)
-    heatmap.xaxis.set_ticklabels(heatmap.xaxis.get_ticklabels(), rotation=45, ha='right', fontsize=8)
+    heatmap.yaxis.set_ticklabels(
+        heatmap.yaxis.get_ticklabels(), rotation=0, ha="right", fontsize=8
+    )
+    heatmap.xaxis.set_ticklabels(
+        heatmap.xaxis.get_ticklabels(), rotation=45, ha="right", fontsize=8
+    )
 
-    plt.ylabel('True label')
-    plt.xlabel('Predicted label')
+    plt.ylabel("True label")
+    plt.xlabel("Predicted label")
     plt.title("Confusion Matrix")
     plt.show()
+
 
 def calculate_auc(model: torch.nn.Module, data: DataLoader, batch_size: int) -> float:
     """

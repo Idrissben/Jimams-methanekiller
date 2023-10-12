@@ -35,7 +35,7 @@ st.markdown(header_html, unsafe_allow_html=True)
 
 
 def process_image(img):
-    img = img.convert('RGB')  # Ensure the image has 3 channels (RGB)
+    img = img.convert("RGB")  # Ensure the image has 3 channels (RGB)
     img = img.resize((32, 32))  # Resize the image to 32x32 pixels
     return img
 
@@ -43,8 +43,13 @@ def process_image(img):
 # Sidebar for navigation
 page = st.sidebar.radio(
     "Navigate",
-    options=["Home", "Methane Report", "Visualize My Emissions",
-             "End of Leak Certificate", "Detect Leaks"]
+    options=[
+        "Home",
+        "Methane Report",
+        "Visualize My Emissions",
+        "End of Leak Certificate",
+        "Detect Leaks",
+    ],
 )
 
 if page == "Home":
@@ -52,7 +57,9 @@ if page == "Home":
     for _ in range(8):
         st.text("")
     st.title("CleanR: Get control of your Methane emotions & build your CSRD")
-    st.write("Our mission is to help companies diminish their Methane emissions by providing a clear method for **Monitoring, Reporting and Verification**.")
+    st.write(
+        "Our mission is to help companies diminish their Methane emissions by providing a clear method for **Monitoring, Reporting and Verification**."
+    )
 
     col1, col2 = st.columns(2)  # Create two columns
 
@@ -60,28 +67,28 @@ if page == "Home":
         with st.container():
             st.write("### Methane Report")
             st.write(
-                "Generate reports on your methane emissions based on the provided data.")
-            if st.button('📊 Methane Report'):
+                "Generate reports on your methane emissions based on the provided data."
+            )
+            if st.button("📊 Methane Report"):
                 st.experimental_rerun()
 
         with st.container():
             st.write("### Visualize My Emissions")
-            st.write(
-                "Visualize your emissions data over time to track your progress.")
-            if st.button('📈 Visualize My Emissions'):
+            st.write("Visualize your emissions data over time to track your progress.")
+            if st.button("📈 Visualize My Emissions"):
                 st.experimental_rerun()
 
     with col2:  # Second column
         with st.container():
             st.write("### End of Leak Certificate")
             st.write("Verify the end of a methane leak and generate a certificate.")
-            if st.button('📜 End of Leak Certificate'):
+            if st.button("📜 End of Leak Certificate"):
                 st.experimental_rerun()
 
         with st.container():
             st.write("### Detect Leaks")
             st.write("Use our AI model to detect methane leaks from images.")
-            if st.button('🔍 Detect Leaks'):
+            if st.button("🔍 Detect Leaks"):
                 st.experimental_rerun()
 
 
@@ -92,7 +99,7 @@ elif page == "Methane Report":
     st.title("Methane Emission Report")
 
     # This string is a tableau dashboard that contains a visualization
-    tableau_embed_code = '''
+    tableau_embed_code = """
     <div class='tableauPlaceholder' id='viz1697103145933' style='position: relative'><noscript><a href='#'>
     <img alt='1-Leaks report ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Le&#47;Leaksr
     eport&#47;1-Leaksreport&#47;1_rss.png' style='border: none' /></a></noscript><object class='tableauViz'  
@@ -110,7 +117,7 @@ elif page == "Methane Report":
     else { vizElement.style.width='100%';vizElement.style.height='1927px';} 
     var scriptElement = document.createElement('script');                    
     scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';
-    vizElement.parentNode.insertBefore(scriptElement, vizElement);                </script>    '''
+    vizElement.parentNode.insertBefore(scriptElement, vizElement);                </script>    """
     components.html(tableau_embed_code, height=1000, width=1600)
 
 elif page == "Visualize My Emissions":
@@ -120,7 +127,7 @@ elif page == "Visualize My Emissions":
     st.title("Visualize My Emissions")
 
     # This string is a tableau dashboard that contains a visualization
-    tableau_embed_code = '''
+    tableau_embed_code = """
     <div class='tableauPlaceholder' id='viz1697113359224' style='position: relative'><noscript><a href='#'>
     <img alt='2-Localize your leaks ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Lo&#
     47;Localizeyourleaks-v2&#47;2-Localizeyourleaks&#47;1_rss.png' style='border: none' /></a></noscript>
@@ -137,7 +144,7 @@ elif page == "Visualize My Emissions":
     else if ( divElement.offsetWidth > 500 ) { vizElement.style.width='100%';vizElement.style.height=(divElement.offsetWidth*0.75)+'px';} 
     else { vizElement.style.width='100%';vizElement.style.height='1727px';}  
     var scriptElement = document.createElement('script');   scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js'; 
-     vizElement.parentNode.insertBefore(scriptElement, vizElement);   </script> '''
+     vizElement.parentNode.insertBefore(scriptElement, vizElement);   </script> """
     components.html(tableau_embed_code, height=1000, width=1600)
 
 elif page == "End of Leak Certificate":
@@ -147,18 +154,15 @@ elif page == "End of Leak Certificate":
     st.title("End of Leak Certificate")
 
     col1, col2 = st.columns(2)  # Create two columns
-    combined_df = pd.read_csv('leak_certificate.csv')
+    combined_df = pd.read_csv("leak_certificate.csv")
     # Create a dropdown menu for selecting an id_coord
-    selected_id = st.selectbox(
-        "Select an ID",
-        options=combined_df['id_coord'].unique()
-    )
+    selected_id = st.selectbox("Select an ID", options=combined_df["id_coord"].unique())
 
     # Filter the DataFrame based on the selected id_coord
-    selected_row = combined_df[combined_df['id_coord'] == selected_id].iloc[0]
+    selected_row = combined_df[combined_df["id_coord"] == selected_id].iloc[0]
 
     # Obtain the file paths for the images
-    path1, path2 = selected_row['path1'], selected_row['path2']
+    path1, path2 = selected_row["path1"], selected_row["path2"]
 
     # Display the images in the columns
     with col1:
@@ -167,7 +171,10 @@ elif page == "End of Leak Certificate":
             buf = io.BytesIO()
             tiff_img.convert("RGB").save(buf, format="PNG")
             st.image(
-                buf.getvalue(), caption=f"Image 1 from {selected_id}", use_column_width=True)
+                buf.getvalue(),
+                caption=f"Image 1 from {selected_id}",
+                use_column_width=True,
+            )
 
     with col2:
         with open(path2, "rb") as f:
@@ -175,64 +182,64 @@ elif page == "End of Leak Certificate":
             buf = io.BytesIO()
             tiff_img.convert("RGB").save(buf, format="PNG")
             st.image(
-                buf.getvalue(), caption=f"Image 2 from {selected_id}", use_column_width=True)
+                buf.getvalue(),
+                caption=f"Image 2 from {selected_id}",
+                use_column_width=True,
+            )
         # Obtain the values of plume1 and plume2
-    plume1, plume2 = selected_row['plume1'], selected_row['plume2']
+    plume1, plume2 = selected_row["plume1"], selected_row["plume2"]
 
     # Check the conditions and display the appropriate message
-    if plume1 == 'yes' and plume2 == 'yes':
+    if plume1 == "yes" and plume2 == "yes":
         st.markdown(
             "<div style='color: red;'>"
             "Sorry, as of our last updates, there is still a leak in this position. "
             "Resolve the problem to get a certificate."
             "</div>",
-            unsafe_allow_html=True
+            unsafe_allow_html=True,
         )
-    elif plume1 == 'yes' and plume2 == 'no':
+    elif plume1 == "yes" and plume2 == "no":
         st.markdown(
             "<div style='color: green;'>"
             "Congratulations, you resolved the leak, you can get your certificate!"
             "</div>",
-            unsafe_allow_html=True
+            unsafe_allow_html=True,
         )
         # Text input fields with default values
         company_name = st.text_input(
-            "Name of Company:", value="International Gas Company (IGC)")
+            "Name of Company:", value="International Gas Company (IGC)"
+        )
         date = st.text_input("Date:", value="13/10/2023")
 
         # Button to download the PDF
-        if st.button('Generate Certificate'):
-            certificate_path = 'images/certif.pdf'
-            with open(certificate_path, 'rb') as f:
+        if st.button("Generate Certificate"):
+            certificate_path = "images/certif.pdf"
+            with open(certificate_path, "rb") as f:
                 certificate_bytes = f.read()
             st.download_button(
                 label="Download Certificate",
                 data=certificate_bytes,
-                file_name='certificate.pdf',
-                mime='application/pdf'
+                file_name="certificate.pdf",
+                mime="application/pdf",
             )
 
 
 elif page == "Detect Leaks":
-    model = classifier.Classifier('resnet18.pth')
+    model = classifier.Classifier("resnet18.pth")
 
     # Create empty space to push the title down
     for _ in range(8):
         st.text("")
     st.title("Methane Emission Detection")
-    uploaded_file = st.file_uploader(
-        "Choose an image...", type=["jpg", "png", "tif"])
+    uploaded_file = st.file_uploader("Choose an image...", type=["jpg", "png", "tif"])
     if uploaded_file is not None:
-        st.image(uploaded_file, caption="Uploaded Image.",
-                 use_column_width=True)
+        st.image(uploaded_file, caption="Uploaded Image.", use_column_width=True)
 
         # Predict
         prediction = model.classify_image(uploaded_file)
 
         # Assume that class 1 corresponds to Methane Emission presence
         if prediction[0] == 1:
-            st.write(
-                f"Methane Emission Detected with probability {prediction[1]}")
+            st.write(f"Methane Emission Detected with probability {prediction[1]}")
         else:
-            st.write(
-                f"Methane not Emission Detected with probablity {prediction[1]}")
+            st.write(f"Methane not Emission Detected with probablity {prediction[1]}")
