@@ -1,7 +1,11 @@
+"""
+This module creates a package for the methane-leak-detector project.
+"""
+
 from setuptools import setup, find_packages
 
 setup(
-    name="methane-killer",
+    name="methane-leak-detector",
     version="0.1.0",
     description="",
     long_description=open("README.md").read(),

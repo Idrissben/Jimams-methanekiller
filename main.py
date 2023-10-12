@@ -1,3 +1,7 @@
+"""
+This module can be executed with the command "streamlit run main.py" and launch the MVP of our product.
+"""
+
 import streamlit as st
 from PIL import Image
 import streamlit.components.v1 as components
@@ -31,9 +35,19 @@ st.markdown(header_html, unsafe_allow_html=True)
 
 
 def process_image(img):
+    """
+    Processes the given image by converting it to RGB and resizing it to 32x32 pixels.
+
+    Parameters:
+    img (PIL.Image.Image): The image to be processed.
+
+    Returns:
+    PIL.Image.Image: The processed image with 3 channels (RGB) and resized to 32x32 pixels.
+    """
     img = img.convert("RGB")  # Ensure the image has 3 channels (RGB)
     img = img.resize((32, 32))  # Resize the image to 32x32 pixels
     return img
+
 
 
 # Sidebar for navigation
