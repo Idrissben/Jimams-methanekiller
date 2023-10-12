@@ -1,3 +1,6 @@
+"""
+This module provides functions to train the model.
+"""
 import torch
 import torch.optim as optim
 from torch.utils.data import Dataset, DataLoader
@@ -35,7 +38,8 @@ def train(
         model (torch.nn.Module): The trained model.
     """
     optimizer = optim.Adam(model.parameters(), lr=lr)
-    dataloader_train = DataLoader(data_train, batch_size=batch_size, shuffle=True)
+    dataloader_train = DataLoader(
+        data_train, batch_size=batch_size, shuffle=True)
     dataloader_validation = DataLoader(
         data_validation, batch_size=batch_size, shuffle=True
     )
@@ -73,7 +77,8 @@ def train(
             print("Validation Loss: {0}".format(val_loss))
             validation_loss.append(val_loss)
 
-            accuracy_rate = success_rate(model, dataloader_validation, batch_size)
+            accuracy_rate = success_rate(
+                model, dataloader_validation, batch_size)
             print("Model accuracy: {0} %".format(accuracy_rate))
             success_rate_.append(accuracy_rate)
 

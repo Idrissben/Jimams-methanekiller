@@ -1,3 +1,7 @@
+"""
+This module provides functions to handle the dataset.
+"""
+
 from torchvision import transforms
 from torch.utils.data import Dataset
 import pandas as pd
@@ -21,6 +25,16 @@ def convert_to_rgb(image_path: str) -> Image.Image:
 
 
 class TrainData(Dataset):
+    """
+    Dataset class for training image data.
+
+    Args:
+        metadata (pd.DataFrame): Info about the dataset, including image paths and labels.
+        base_path (str): Base path for image files.
+        transform (transforms.Compose, optional): Image transformations. Defaults to resize, tensor conversion, and normalization.
+        augmentation (transforms.Compose, optional): Data augmentation transformations.
+    """
+
     def __init__(
         self,
         metadata: pd.DataFrame,
@@ -52,9 +66,13 @@ class TrainData(Dataset):
         self.base_path = base_path
 
     def __len__(self) -> int:
+        """Returns the number of items in the dataset."""
+
         return self.metadata.shape[0]
 
     def __getitem__(self, idx: int) -> tuple:
+        """Retrieve image-label pair based on the index."""
+
         label = 1 if self.metadata["plume"].iloc[idx] == "yes" else 0
         img_path = self.base_path + self.metadata["path"].iloc[idx] + ".tif"
         image = convert_to_rgb(img_path)
@@ -69,6 +87,15 @@ class TrainData(Dataset):
 
 
 class TestData(Dataset):
+    """
+    Dataset class for testing image data.
+
+    Args:
+        metadata (pd.DataFrame): Info about the dataset, including image paths.
+        base_path (str): Base path for image files.
+        transform (transforms.Compose, optional): Image transformations. Defaults to resize, tensor conversion, and normalization.
+    """
+
     def __init__(
         self,
         metadata: pd.DataFrame,
@@ -96,9 +123,13 @@ class TestData(Dataset):
         self.base_path = base_path
 
     def __len__(self) -> int:
+        """Returns the number of items in the dataset."""
+
         return self.metadata.shape[0]
 
     def __getitem__(self, idx: int) -> Image.Image:
+        """Retrieve image based on the index."""
+
         img_path = (
             self.base_path
             + "images/"

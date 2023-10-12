@@ -1,3 +1,6 @@
+"""
+This module define the model.
+"""
 import torch
 import torch.nn as nn
 
@@ -13,7 +16,8 @@ def resnet18(freeze_parameters: bool = True) -> nn.Module:
     Returns:
         model (nn.Module): The ResNet-18 model with modified output layer.
     """
-    model = torch.hub.load("pytorch/vision:v0.10.0", "resnet18", pretrained=True)
+    model = torch.hub.load("pytorch/vision:v0.10.0",
+                           "resnet18", pretrained=True)
 
     if freeze_parameters:
         for param in model.parameters():

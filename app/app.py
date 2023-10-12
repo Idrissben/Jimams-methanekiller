@@ -1,3 +1,6 @@
+"""
+This module provides the app.
+"""
 import torch
 import torch.nn as nn
 import streamlit as st
@@ -35,8 +38,11 @@ st.markdown(header_html, unsafe_allow_html=True)
 
 
 def process_image(img):
-    img = img.convert("RGB")  # Ensure the image has 3 channels (RGB)
-    img = img.resize((32, 32))  # Resize the image to 32x32 pixels
+    ''''
+    Ensure the image has 3 channels (RGB)
+    Resize the image to 32x32 pixels '''
+    img = img.convert("RGB")
+    img = img.resize((32, 32))
     return img
 
 
@@ -74,7 +80,8 @@ if page == "Home":
 
         with st.container():
             st.write("### Visualize My Emissions")
-            st.write("Visualize your emissions data over time to track your progress.")
+            st.write(
+                "Visualize your emissions data over time to track your progress.")
             if st.button("📈 Visualize My Emissions"):
                 st.experimental_rerun()
 
@@ -156,7 +163,8 @@ elif page == "End of Leak Certificate":
     col1, col2 = st.columns(2)  # Create two columns
     combined_df = pd.read_csv("leak_certificate.csv")
     # Create a dropdown menu for selecting an id_coord
-    selected_id = st.selectbox("Select an ID", options=combined_df["id_coord"].unique())
+    selected_id = st.selectbox(
+        "Select an ID", options=combined_df["id_coord"].unique())
 
     # Filter the DataFrame based on the selected id_coord
     selected_row = combined_df[combined_df["id_coord"] == selected_id].iloc[0]
@@ -231,15 +239,19 @@ elif page == "Detect Leaks":
     for _ in range(8):
         st.text("")
     st.title("Methane Emission Detection")
-    uploaded_file = st.file_uploader("Choose an image...", type=["jpg", "png", "tif"])
+    uploaded_file = st.file_uploader(
+        "Choose an image...", type=["jpg", "png", "tif"])
     if uploaded_file is not None:
-        st.image(uploaded_file, caption="Uploaded Image.", use_column_width=True)
+        st.image(uploaded_file, caption="Uploaded Image.",
+                 use_column_width=True)
 
         # Predict
         prediction = model.classify_image(uploaded_file)
 
         # Assume that class 1 corresponds to Methane Emission presence
         if prediction[0] == 1:
-            st.write(f"Methane Emission Detected with probability {prediction[1]}")
+            st.write(
+                f"Methane Emission Detected with probability {prediction[1]}")
         else:
-            st.write(f"Methane not Emission Detected with probablity {prediction[1]}")
+            st.write(
+                f"Methane not Emission Detected with probablity {prediction[1]}")

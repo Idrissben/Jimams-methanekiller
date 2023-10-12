@@ -1,3 +1,6 @@
+"""
+This module provides functions to evaluate the accuracy of the model.
+"""
 import torch
 import numpy as np
 import matplotlib.pyplot as plt
@@ -54,7 +57,8 @@ def conf_mat(model: torch.nn.Module, test_data: DataLoader, batch_size: int) -> 
     """
     nb_classes = 2
     confusion_matrix = np.zeros((nb_classes, nb_classes))
-    dataloader_test = DataLoader(test_data, batch_size=batch_size, shuffle=True)
+    dataloader_test = DataLoader(
+        test_data, batch_size=batch_size, shuffle=True)
 
     with torch.no_grad():
         for inputs, labels in tqdm(dataloader_test, desc="Total Progress: "):

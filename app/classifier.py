@@ -1,3 +1,7 @@
+"""
+This module provides functions load the dataset.
+"""
+
 import torch
 import torchvision.transforms as transforms
 from PIL import Image
@@ -27,13 +31,22 @@ def resnet18(freeze_parameters: bool = True) -> nn.Module:
 
 
 class Classifier:
+    """
+    Classifier using ResNet-18 architecture for image classification.
+
+    Initializes a ResNet-18 model, loads weights, and provides image classification.
+
+    Attributes:
+        model (torch.nn.Module): ResNet-18 model.
+        transform (transforms.Compose): Preprocessing pipeline.
+    """
+
     def __init__(self, model_path):
         """
-        Initializes the Classifier with a specified model path.
+        Initializes the Classifier with model weights.
 
-        Parameters:
-            model_path (str): Path to the pretrained model weights. The provided path should 
-                              point to the ResNet-18 state dict compatible weights.
+        Args:
+            model_path (str): Path to model weights.
         """
         # Create a new ResNet-50 model with random weights
         self.model = resnet18()
@@ -52,19 +65,14 @@ class Classifier:
 
     def classify_image(self, image_path):
         """
-        Classifies an input image and returns the predicted class ID and its probability.
+        Classifies an image and returns predicted class ID and probability.
 
         Args:
-            image_path (str): Path to the input image. The image should be in a format 
-                              compatible with PIL (e.g., JPG, PNG).
+            image_path (str): Image file path.
 
         Returns:
-            int: The predicted class ID. This ID is based on the order of classes used during model training.
-            float: The probability associated with the predicted class.
-
-        Note:
-            - The input image should be RGB.
-            - It's recommended that the input image is of high quality for more accurate classification.
+            int: Predicted class ID.
+            float: Class probability.
         """
         # Load the image from the specified file
         image = Image.open(image_path)
